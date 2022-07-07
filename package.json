@@ -1,6 +1,6 @@
 {
   "name": "mraviewer2",
-  "version": "0.1.0",
+  "version": "0.9.0",
   "private": true,
   "scripts": {
     "start": "serve -s dist -l 3020",
