@@ -7,6 +7,10 @@ import { Store } from "vuex";
 declare module "@vue/runtime-core" {
   // ストアのステートを宣言する
   interface State {
+    isJapanese: boolean;
+    isShortNameVisible: boolean;
+    selectedEoj: string;
+    selectedRelease: string;
     definitions: object;
     metaData: object;
     nodeProfule: object;

@@ -10,7 +10,7 @@
           <div class="col"></div>
         </div>
       </div>
-      <div class="card-body" id="about-this-tool">
+      <div class="card-body">
         <div>
           <p>{{ remark.content }}</p>
         </div>

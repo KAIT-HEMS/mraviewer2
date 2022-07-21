@@ -7,24 +7,35 @@
       <div class="card-header">
         <div class="row">
           <div class="col-auto h5 mt-2">Import MRA</div>
+          <div class="col-auto p mt-2">
+            Version: {{ dataVersion }}, Release: {{ release }}
+          </div>
           <div class="col"></div>
-          <div class="col-auto mt-2">{{ folderUrl }}</div>
-          <div class="col-auto"></div>
+          <div class="col-auto">
+            <form>
+              <div class="input-group">
+                <div class="uploader">
+                  <input
+                    type="file"
+                    class="form-control"
+                    v-on:change="importFiles($event)"
+                    webkitdirectory
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
       <div class="card-body pt-2 pb-2">
-        <form>
-          <div class="input-group">
-            <div class="uploader">
-              <input
-                type="file"
-                class="form-control"
-                v-on:change="importFiles($event)"
-                webkitdirectory
-              />
-            </div>
-          </div>
-        </form>
+        <div class="h6">Imported files:</div>
+        <div
+          class="p my-0"
+          v-for="importedFile in importedFiles"
+          v-bind:key="importedFile.id"
+        >
+          {{ importedFile }}
+        </div>
       </div>
     </div>
   </div>
@@ -33,12 +44,15 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 console.log("ImportMRA init");
+const importedFiles: string[] = [];
 
 export default defineComponent({
   name: "ImportMRA",
   data() {
     return {
-      folderURL: "",
+      dataVersion: "unknown",
+      release: "unknown",
+      importedFiles: importedFiles,
     };
   },
   computed: {
@@ -99,7 +113,8 @@ export default defineComponent({
         switch (file.name) {
           case "definitions.json":
             console.log("Found definitions.json");
-            // reader.onload = (event) => {
+            this.importedFiles.push(file.name);
+            this.importedFiles.sort();
             reader.onload = () => {
               // 読み込み操作が正常に完了するたびにトリガされるイベントハンドラ。
               if (reader.result) {
@@ -115,13 +130,22 @@ export default defineComponent({
             break;
           case "metaData.json":
             console.log("Found metaData.json");
-            // reader.onload = (event) => {
+            this.importedFiles.push(file.name);
+            this.importedFiles.sort();
             reader.onload = () => {
               // 読み込み操作が正常に完了するたびにトリガされるイベントハンドラ。
               if (reader.result) {
                 readerResult = reader.result;
                 if (typeof readerResult == "string") {
                   this.metaData = JSON.parse(readerResult);
+                  this.dataVersion = this.metaData.metaData.dataVersion;
+                  this.release = this.metaData.metaData.release;
+                  console.log(
+                    "version",
+                    this.metaData.metaData.dataVersion,
+                    "release",
+                    this.metaData.metaData.release
+                  );
                 }
               }
             };
@@ -131,7 +155,8 @@ export default defineComponent({
             break;
           case "0x0EF0.json":
             console.log("Found 0x0EF0.json");
-            // reader.onload = (event) => {
+            this.importedFiles.push(file.name);
+            this.importedFiles.sort();
             reader.onload = () => {
               // 読み込み操作が正常に完了するたびにトリガされるイベントハンドラ。
               if (reader.result) {
@@ -147,7 +172,8 @@ export default defineComponent({
             break;
           case "0x0000.json":
             console.log("Found 0x0000.json");
-            // reader.onload = (event) => {
+            this.importedFiles.push(file.name);
+            this.importedFiles.sort();
             reader.onload = () => {
               // 読み込み操作が正常に完了するたびにトリガされるイベントハンドラ。
               if (reader.result) {
@@ -165,7 +191,8 @@ export default defineComponent({
             // mcrule は処理しない
             if (!file.name.includes("mcrule")) {
               console.log("Found device:", file.name);
-              // reader.onload = (event) => {
+              this.importedFiles.push(file.name);
+              this.importedFiles.sort();
               reader.onload = () => {
                 // 読み込み操作が正常に完了するたびにトリガされるイベントハンドラ。
                 if (reader.result) {
@@ -186,12 +213,21 @@ export default defineComponent({
 
   created: function () {
     console.log("Setting page: Import MRA is created");
+    console.log(
+      "version",
+      this.metaData.metaData.dataVersion,
+      this.metaData.metaData.release
+    );
+    this.dataVersion = this.metaData.metaData.dataVersion;
+    this.release = this.metaData.metaData.release;
   },
 });
 </script>
 
 <style scoped>
 .uploader {
+  margin-top: 8px;
+  margin-bottom: 8px;
   position: relative;
   border-radius: 4px;
   width: 160px;

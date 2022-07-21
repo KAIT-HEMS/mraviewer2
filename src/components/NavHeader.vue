@@ -5,12 +5,21 @@
 
 <template>
   <nav class="navbar navbar-expand-lg navbar-secondary bg-secondary">
-    <div class="container-fluid">
-      <div>
+    <!-- <div class="container-fluid"> -->
+    <div class="row container-fluid">
+      <div class="col-auto">
         <a class="navbar-brand" href="#" style="color: #ffffff">MRA Viewer</a>
       </div>
+      <!-- <div class="col-auto">
+        <p class="nav-p">{{ dataVersion }}</p>
+      </div>
+      <div class="col-auto">
+        <p class="nav-p">{{ release }}</p>
+      </div> -->
+      <div class="col px-0"></div>
 
-      <div class="d-flex">
+      <!-- <div class="d-flex"> -->
+      <div class="col-auto">
         <!-- ホームボタン -->
         <router-link to="/">
           <a class="btn" title="Home">
@@ -33,5 +42,46 @@
         </router-link>
       </div>
     </div>
+    <!-- </div> -->
   </nav>
 </template>
+
+<script lang="ts">
+import { defineComponent } from "vue";
+console.log("NavHeader init");
+
+export default defineComponent({
+  name: "NavHeader",
+  // data() {
+  //   return {
+  //     dataVersion: "unknown",
+  //     release: "unknown",
+  //   };
+  // },
+  // computed: {
+  //   metaData: {
+  //     get() {
+  //       return this.$store.getters.metaData;
+  //     },
+  //     set(value) {
+  //       this.$store.dispatch("setMetaData", value);
+  //     },
+  //   },
+  // },
+  created: function () {
+    console.log("NavHeader is created");
+    // this.dataVersion = "0.0.9";
+    // this.release = "C";
+    // this.dataVersion = this.metaData.metaData.dataVersion;
+    // this.release = this.metaData.metaData.release;
+  },
+});
+</script>
+
+<style scoped>
+.nav-p {
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #ffffff;
+}
+</style>

@@ -289,7 +289,7 @@ interface Obj {
 }
 let globalRemarks: Obj = {}; // 備考欄のデータを保持するため
 let globalBitmaps: Obj = {}; // value range欄のbitmapデータを保持するため
-let globalIsFirstRow = true;
+// let globalIsFirstRow = true;
 
 // type RowDataRangeItem ={
 //   edt: string;
@@ -314,42 +314,55 @@ type RowData = {
 };
 const rowDataArray: RowData[] = [];
 
-// import { Log, NotificationData, IdInfo } from "../global.d";
-// let g_statusCode = ""; // fetch API の statusCode を保持するため
-// const idInfoList: IdInfo[] = []; // プロパティの初期化用データ
-// const resourceTypeList: string[] = []; // プロパティの初期化用データ
-// type ThingInfo = {
-//   deviceType: string;
-//   elPropertyList: string[];
-//   elPropertyListWritable: string[];
-//   actionList: string[];
-// };
-// let g_thingInfo: { [key: string]: ThingInfo } = {};
-// type Option = {
-//   method: string;
-//   headers: Headers;
-//   body?: string;
-// };
-
 export default defineComponent({
   name: "HomeShowData",
   data() {
     return {
-      rbView: "specSheet", // selected radio button for sheet selection(pending)
-      isJapanese: true, // selected radio button for language selection
-      isShortNameVisible: false, // selected radio button for language selection
+      // isJapanese: true, // selected radio button for language selection
+      // isShortNameVisible: false, // selected radio button for shortName visibility
       rowDataArray: rowDataArray, // array of rowData
-      packetDetail: "", // gabage code from SSNG
-      selectedEoj: "0x0130", // selected device by pull down menu with default value
+      // selectedEoj: "0x0130", // selected device by pull down menu with default value
       deviceNames: [
         { name: "Super Class", eoj: "0x0000" },
         { name: "Node profile", eoj: "0x0EF0" },
       ], // list of device objects for a pull down menu
-      selectedRelease: "M", // selected release by pull down menu
-      releases: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""),
+      // selectedRelease: "M", // selected release by pull down menu
+      releases: ["A"],
     };
   },
   computed: {
+    isJapanese: {
+      get() {
+        return this.$store.getters.isJapanese;
+      },
+      set(value) {
+        this.$store.dispatch("setIsJapanese", value);
+      },
+    },
+    isShortNameVisible: {
+      get() {
+        return this.$store.getters.isShortNameVisible;
+      },
+      set(value) {
+        this.$store.dispatch("setIsShortNameVisible", value);
+      },
+    },
+    selectedEoj: {
+      get() {
+        return this.$store.getters.selectedEoj;
+      },
+      set(value) {
+        this.$store.dispatch("setSelectedEoj", value);
+      },
+    },
+    selectedRelease: {
+      get() {
+        return this.$store.getters.selectedRelease;
+      },
+      set(value) {
+        this.$store.dispatch("setSelectedRelease", value);
+      },
+    },
     definitions: {
       get() {
         return this.$store.getters.definitions;
@@ -452,6 +465,11 @@ export default defineComponent({
     },
     // Appendixのrelease選択の要素を作成
     updateReleases: function () {
+      // metaData がまだ read されていなければ return
+      if (this.metaData.metaData.dataVersion == "unknown") {
+        console.log("skip updateReleases()");
+        return;
+      }
       const latestRelease = this.metaData.metaData.release;
       let firstRelease = "A";
       if (this.selectedEoj !== "0x0EF0" && this.selectedEoj !== "0x0000") {
@@ -479,15 +497,18 @@ export default defineComponent({
       }
       releases.push(alphabet[i]);
       this.releases = releases.reverse();
-
-      // selectedReleaseがreleases内にない場合は、latestReleaseにする
-      // selectedRelease =
-      //   firstRelease <= selectedRelease && selectedRelease <= latestRelease
-      //     ? selectedRelease
-      //     : latestRelease;
-      // this.releaseSelected = selectedRelease;
+      // selectedRelease の値が releases にない場合は、最新の release とする。
+      if (!this.releases.includes(this.selectedRelease)) {
+        this.selectedRelease = this.releases[0];
+      }
+      console.log("End of updateReleases");
     },
     updateDeviceNames: function () {
+      // metaData がまだ read されていなければ return
+      if (this.metaData.metaData.dataVersion == "unknown") {
+        console.log("skip updateDeviceNames()");
+        return;
+      }
       console.log("function updateDeviceNames");
       const isJapanese = this.isJapanese;
       const isShortNameVisible = this.isShortNameVisible;
@@ -564,13 +585,18 @@ export default defineComponent({
 
     // 表示用のデータrowDataArrayを作成する。
     createRowDataArray: function () {
+      // metaData がまだ read されていなければ return
+      if (this.metaData.metaData.dataVersion == "unknown") {
+        console.log("skip createRowDataArray()");
+        return;
+      }
       console.log(
         "createRowDataArray()",
         this.selectedEoj,
         this.selectedRelease
       );
       this.rowDataArray.length = 0; // Initialize rowDataArray
-      globalIsFirstRow = true; // 必要?
+      // globalIsFirstRow = true; // 必要?
       const latestRelease = this.metaData.release;
 
       // UIで選択された EOJ の elProperties を利用する
@@ -746,7 +772,7 @@ export default defineComponent({
         }
 
         // console.log("call createRowData, schema", schema);
-        globalIsFirstRow = true;
+        // globalIsFirstRow = true;
         this.createRowData(
           elProperty.data,
           true,
@@ -1111,7 +1137,7 @@ export default defineComponent({
             inf,
             remark
           );
-          globalIsFirstRow = false;
+          // globalIsFirstRow = false;
           return;
           // break;
         }
@@ -1182,7 +1208,7 @@ export default defineComponent({
               remark
             );
           }
-          globalIsFirstRow = false;
+          // globalIsFirstRow = false;
           return;
           // const arrayObject = schema.properties;
           // indexObject = indexObject === null ? 0 : indexObject;
@@ -1301,8 +1327,10 @@ export default defineComponent({
   },
   created: function () {
     console.log("HomeShowData is created");
-    this.selectedRelease = "M";
-    this.selectedEoj = "0x0130";
+    if (this.metaData.metaData.dataVersion == "unknown") {
+      console.log("JSON files should be imported!");
+      this.$router.push("setting");
+    }
     this.updateDeviceNames();
     this.updateReleases();
     this.createRowDataArray();

@@ -6,29 +6,21 @@
     <div class="card">
       <div class="card-header">
         <div class="row">
-          <div class="col-auto h5 mt-2">ELWebAPITool について</div>
+          <div class="col-auto h5 mt-2">MRA Viewer について</div>
           <div class="col"></div>
         </div>
       </div>
       <div class="card-body" id="about-this-tool">
         <div>
           <p>
-            ELWebAPITool はエコーネットコンソーシアムが策定した
-            <a
-              href="https://echonet.jp/web_api/#guideline"
-              target="_blank"
-              rel="noreferrer"
-            >
-              ECHONET Lite WebAPI
-            </a>
-            を利用してサーバーにアクセスするクライアント側のアプリケーションプログラムです。
+            MRA Viewer は、エコーネットコンソーシアムが公開している MRA
+            データの内容を表示するプログラムです。 MRA データの元となる APPENDIX
+            ECHONET
+            機器オブジェクト詳細規定の表形式部分の表記を参考にして表示しています。
             Windows または MacOS 上で動作します。
           </p>
           <p>
-            エコーネットコンソーシアムがサービスを提供している ECHONET Lite
-            WebAPI
-            実験クラウドと、神奈川工科大学スマートハウス研究センターがサービスを提供している
-            ECHONET Lite WebAPI 実証システムにアクセスすることを想定しています。
+            日本語と英語の切り替えや、APPENDIX の各 Release の選択が可能です。
           </p>
         </div>
       </div>
@@ -36,76 +28,69 @@
     <div class="card">
       <div class="card-header">
         <div class="row">
-          <div class="col-auto h5 mt-2">実験クラウドについて</div>
+          <div class="col-auto h5 mt-2">MRA データについて</div>
           <div class="col"></div>
         </div>
       </div>
       <div class="card-body" id="about-jikkenn-server">
         <div>
           <p>
-            ECHONET Lite WebAPI 実験クラウド（以下、実験クラウドと省略します）は
-            ECHONET Lite WebAPI のリファレンスサーバーです。 ECHONET Lite WebAPI
-            で定義された全ての API を実装しています。
-            制御対象機器はサーバー内で静的にエミュレーションしています。
-            ELWebAPITool
-            は実験クラウドがエミュレーションするデバイスの追加／削除機能も備えています。
+            Machine Readable APPENDIX (MAR) データは、ECHONET Lite
+            の仕様書のひとつである 「APPENDIX ECHONET 機器オブジェクト詳細規定」
+            の中の表形式で記述された情報を、構造化した JSON
+            データで表現したものです。エコーネットコンソーシアムの HP
+            で公開されています。MRA データは以下のような特徴があります。
           </p>
-          <p>
-            実験クラウドでは、プロパティ値はサーバー上で静的に設定されています。
-            Device Description の "writable" が true のプロパティでは、PUT
-            でプロパティ値を設定することが可能です。"writable" が false
-            のプロパティの場合、PUT でプロパティ値を設定しようとすると、403
-            Forbidden がレスポンスされます。 "writable" が false
-            のプロパティにおいて、動作確認のためにプロパティ値を変更したい場合は、実験クラウド専用のキーワード
-            "forced":true を body data に追加して PUT してください。
-          </p>
-          <p>例）{"roomTemperature":22, "forced":true}</p>
-          <p>
-            実験クラウドはエコーネットコンソーシアムの会員企業の方が利用できます。
-            エコーネットコンソーシアムの
-            <a
-              href="https://echonet.jp/m_only/web_api_cloud/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              会員限定ページ
-            </a>
-            から実験クラウドのアカウントを作成し、あらかじめ API
-            キーを取得してください。
-          </p>
+          <ul>
+            <li>
+              プロパティデータの構造やデータタイプなどを JSON Schema
+              ライクな表現で記述しています。
+            </li>
+            <li>日本語版と英語版の情報を記述しています。</li>
+            <li>Release A から最新の Release までの情報を記述しています。</li>
+          </ul>
         </div>
       </div>
     </div>
     <div class="card">
       <div class="card-header">
         <div class="row">
-          <div class="col-auto h5 mt-2">実証システムについて</div>
+          <div class="col-auto h5 mt-2">MRA Viewer の使い方</div>
           <div class="col"></div>
         </div>
       </div>
-      <div class="card-body" id="about-jisshou-system">
+      <div class="card-body" id="instruction">
         <div>
-          <p>
-            ECHONET Lite WebAPI 実証システム（以下、実証システムと省略します）は
-            ECHONET Lite WebAPI を利用して ECHONET Lite
-            機器を制御するシステムです。ECHONET Lite の実機が接続された LAN
-            内に実証システム対応の Gateway 装置を設置することで、ECHONET Lite
-            WebAPI を利用して インターネット経由でECHONET Lite
-            の実機を制御することができます。なお、現時点で拡張機能 bulks,
-            groups, histories は対応していません。
-          </p>
-
-          <p>
-            実証システムに関しては
-            <a
-              href="http://sh-center.org/contactus.html"
-              target="_blank"
-              rel="noreferrer"
-            >
-              神奈川工科大学スマートハウス研究センター
-            </a>
-            に問い合わせください。
-          </p>
+          <ol>
+            <li>
+              MRA Viewer
+              をダウンロードし、ユーザーマニュアルに従いインストールします。
+            </li>
+            <li>
+              <a href="https://echonet.jp/spec_g/#standard-08" target="_blank"
+                >エコーネットコンソーシアムのHP</a
+              >から「MRAデータ Version x.x.x (JSON)
+              [zip圧縮]」をダウンロードし、ZIP ファイルを解凍します。
+            </li>
+            <li>MRA Viewer を起動すると、Setting 画面が表示されます。</li>
+            <li>「MRA folder を選択」というボタンをクリックします。</li>
+            <li>
+              解凍したMRA データの中の mraData
+              という名前のフォルダを指定し、アップロードボタンをクリックします。
+            </li>
+            <li>ポップアップ画面でアップロードボタンをクリックします。</li>
+            <li>
+              Version と Release とファイル名が表示されたら、MRA
+              データの読み込みは完了です。
+            </li>
+            <li>
+              画面右上の「家のアイコン」をクリックして、Home 画面に移動します。
+            </li>
+            <li>
+              画面左上のプルダウンメニューから、機器オブジェクトとリリースを選択すると、MRA
+              データが表示されます。
+            </li>
+          </ol>
         </div>
       </div>
     </div>

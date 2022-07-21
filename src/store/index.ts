@@ -5,8 +5,12 @@ import { createStore } from "vuex";
 
 export default createStore({
   state: {
+    selectedEoj: "0x0130",
+    selectedRelease: "Z",
+    isJapanese: true,
+    isShortNameVisible: false,
     definitions: {},
-    metaData: {},
+    metaData: { metaData: { dataVersion: "unknown", release: "unknown" } },
     nodeProfile: {},
     superClass: {},
     devices: [],
@@ -14,6 +18,10 @@ export default createStore({
     bitmap: {},
   },
   getters: {
+    selectedEoj: (state) => state.selectedEoj,
+    selectedRelease: (state) => state.selectedRelease,
+    isJapanese: (state) => state.isJapanese,
+    isShortNameVisible: (state) => state.isShortNameVisible,
     definitions: (state) => state.definitions,
     metaData: (state) => state.metaData,
     nodeProfile: (state) => state.nodeProfile,
@@ -23,6 +31,18 @@ export default createStore({
     bitmap: (state) => state.bitmap,
   },
   mutations: {
+    setSelectedEoj: function (state, value) {
+      state.selectedEoj = value;
+    },
+    setSelectedRelease: function (state, value) {
+      state.selectedRelease = value;
+    },
+    setIsJapanese: function (state, value) {
+      state.isJapanese = value;
+    },
+    setIsShortNameVisible: function (state, value) {
+      state.isShortNameVisible = value;
+    },
     setDefinitions: function (state, value) {
       state.definitions = value;
     },
@@ -46,6 +66,18 @@ export default createStore({
     },
   },
   actions: {
+    setSelectedEoj: function ({ commit }, value) {
+      commit("setSelectedEoj", value);
+    },
+    setSelectedRelease: function ({ commit }, value) {
+      commit("setSelectedRelease", value);
+    },
+    setIsJapanese: function ({ commit }, value) {
+      commit("setIsJapanese", value);
+    },
+    setIsShortNameVisible: function ({ commit }, value) {
+      commit("setIsShortNameVisible", value);
+    },
     setDefinitions: function ({ commit }, value) {
       commit("setDefinitions", value);
     },
