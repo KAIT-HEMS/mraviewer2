@@ -1327,6 +1327,10 @@ export default defineComponent({
   },
   created: function () {
     console.log("HomeShowData is created");
+    console.log("this.metaData");
+    console.log(Object.keys(this.metaData));
+    console.log(Object.keys(this.metaData.metaData));
+    console.log(Object.keys(this.metaData.metaData.dataVersion));
     if (this.metaData.metaData.dataVersion == "unknown") {
       console.log("JSON files should be imported!");
       this.$router.push("setting");

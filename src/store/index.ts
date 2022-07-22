@@ -3,17 +3,31 @@
 
 import { createStore } from "vuex";
 
+const definitionsJson = localStorage.getItem("definitions") ?? "{}";
+const definitions = JSON.parse(definitionsJson);
+const metaDataJson =
+  localStorage.getItem("metaData") ??
+  '{"metaData":{"dataVersion":"unknown","release":"unknown"}}';
+const metaData = JSON.parse(metaDataJson);
+const nodeProfileJson = localStorage.getItem("nodeProfile") ?? "{}";
+const nodeProfile = JSON.parse(nodeProfileJson);
+const superClassJson = localStorage.getItem("superClass") ?? "{}";
+const superClass = JSON.parse(superClassJson);
+const devicesJson = localStorage.getItem("devices") ?? "{}";
+const devicesObject = JSON.parse(devicesJson);
+const devices = devicesObject.devices ?? [];
+
 export default createStore({
   state: {
     selectedEoj: "0x0130",
     selectedRelease: "Z",
     isJapanese: true,
     isShortNameVisible: false,
-    definitions: {},
-    metaData: { metaData: { dataVersion: "unknown", release: "unknown" } },
-    nodeProfile: {},
-    superClass: {},
-    devices: [],
+    definitions: definitions,
+    metaData: metaData,
+    nodeProfile: nodeProfile,
+    superClass: superClass,
+    devices: devices,
     remark: {},
     bitmap: {},
   },

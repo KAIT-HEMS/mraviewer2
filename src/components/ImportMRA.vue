@@ -1,5 +1,5 @@
-<!-- components/SettingServerAndDevice.vue -->
-<!-- Setting page の Server 設定 と Device 設定 component を作成する -->
+<!-- components/ImportMRA.vue -->
+<!-- MRA データを読み込む -->
 
 <template>
   <div class="importMRA">
@@ -101,6 +101,8 @@ export default defineComponent({
     // MRA folder 指定時の処理
     importFiles: function (event: any) {
       console.log("importFiles");
+      localStorage.clear();
+      this.devices = [];
       let readerResult: string | ArrayBuffer = "";
       let files = event.target.files;
       for (const file of files) {
@@ -121,6 +123,7 @@ export default defineComponent({
                 readerResult = reader.result;
                 if (typeof readerResult == "string") {
                   this.definitions = JSON.parse(readerResult);
+                  localStorage.setItem("definitions", readerResult);
                 }
               }
             };
@@ -138,12 +141,13 @@ export default defineComponent({
                 readerResult = reader.result;
                 if (typeof readerResult == "string") {
                   this.metaData = JSON.parse(readerResult);
+                  localStorage.setItem("metaData", readerResult);
                   this.dataVersion = this.metaData.metaData.dataVersion;
                   this.release = this.metaData.metaData.release;
                   console.log(
-                    "version",
+                    "metaData.version",
                     this.metaData.metaData.dataVersion,
-                    "release",
+                    "metaData.release",
                     this.metaData.metaData.release
                   );
                 }
@@ -163,6 +167,7 @@ export default defineComponent({
                 readerResult = reader.result;
                 if (typeof readerResult == "string") {
                   this.nodeProfile = JSON.parse(readerResult);
+                  localStorage.setItem("nodeProfile", readerResult);
                 }
               }
             };
@@ -180,6 +185,7 @@ export default defineComponent({
                 readerResult = reader.result;
                 if (typeof readerResult == "string") {
                   this.superClass = JSON.parse(readerResult);
+                  localStorage.setItem("superClass", readerResult);
                 }
               }
             };
@@ -199,6 +205,11 @@ export default defineComponent({
                   readerResult = reader.result;
                   if (typeof readerResult == "string") {
                     this.devices.push(JSON.parse(readerResult));
+                    // this.devices は array なので、object にして JSON に変換
+                    localStorage.setItem(
+                      "devices",
+                      JSON.stringify({ devices: this.devices })
+                    );
                   }
                 }
               };
