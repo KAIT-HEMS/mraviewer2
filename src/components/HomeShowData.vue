@@ -6,7 +6,7 @@
     <div class="card">
       <div class="card-header py-2">
         <div class="row">
-          <!-- device selection -->
+          <!-- Device object selection -->
           <div class="col-auto py-1 pe-1">
             <select
               class="custom-select p-1"
@@ -23,7 +23,7 @@
             </select>
           </div>
 
-          <!-- release version selection -->
+          <!-- Release version selection -->
           <div class="col-auto py-1 px-0">
             <select
               class="custom-select p-1"
@@ -111,11 +111,9 @@
                 <th scope="col" class="col2">EPC</th>
                 <th scope="col" class="col3">値域</th>
                 <th scope="col" class="col4">データ型</th>
-                <th scope="col" class="col5">データ サイズ</th>
+                <th scope="col" class="col5">データサイズ</th>
                 <th scope="col" class="col6">単位</th>
-                <th scope="col" class="col7" style="word-wrap: break-word">
-                  アクセスルール
-                </th>
+                <th scope="col" class="col7">アクセスルール</th>
                 <th scope="col" class="col8">必須</th>
                 <th scope="col" class="col9">状変時アナウンス</th>
                 <th scope="col" class="col10">備考</th>
@@ -157,22 +155,17 @@
                       v-bind:key="item.id"
                       tabindex="0"
                     >
-                      <!-- <template v-if="isJapanese && isShortNameVisible"> -->
                       <td v-if="isJapanese && isShortNameVisible" class="col3">
                         {{ item.edt }}:{{ item.descriptions.ja }}:{{
                           item.name
                         }}
                       </td>
-                      <!-- </template> -->
-                      <!-- <template v-else-if="isJapanese && !isShortNameVisible"> -->
                       <td
                         v-else-if="isJapanese && !isShortNameVisible"
                         class="col3"
                       >
                         {{ item.edt }}:{{ item.descriptions.ja }}
                       </td>
-                      <!-- </template> -->
-                      <!-- <template v-else-if="!isJapanese && isShortNameVisible"> -->
                       <td
                         v-else-if="!isJapanese && isShortNameVisible"
                         class="col3"
@@ -181,37 +174,9 @@
                           item.name
                         }}
                       </td>
-                      <!-- </template> -->
-                      <!-- <template v-else> -->
                       <td v-else class="col3">
                         {{ item.edt }}:{{ item.descriptions.en }}
                       </td>
-                      <!-- </template> -->
-
-                      <!-- <template v-if="isJapanese && isShortNameVisible">
-                        <td class="col3">
-                          {{ item.edt }}:{{ item.descriptions.ja }}:{{
-                            item.name
-                          }}
-                        </td>
-                      </template>
-                      <template v-else-if="isJapanese && !isShortNameVisible">
-                        <td class="col3">
-                          {{ item.edt }}:{{ item.descriptions.ja }}
-                        </td>
-                      </template>
-                      <template v-else-if="!isJapanese && isShortNameVisible">
-                        <td class="col3">
-                          {{ item.edt }}:{{ item.descriptions.en }}:{{
-                            item.name
-                          }}
-                        </td>
-                      </template>
-                      <template v-else>
-                        <td class="col3">
-                          {{ item.edt }}:{{ item.descriptions.en }}
-                        </td>
-                      </template> -->
                     </tr>
                   </table>
                 </template>
@@ -233,7 +198,6 @@
 
                 <!-- bitmap -->
                 <template v-else-if="rowData.propType === 'bitmap'">
-                  <!-- <td class="col3">{{ rowData.range }}</td> -->
                   <td
                     class="col3 under"
                     v-on:click="showBitmap(rowData.bitmap)"
@@ -249,7 +213,6 @@
                 <!-- Column data value range end -->
 
                 <td class="col4">{{ rowData.dataType }}</td>
-                <!-- <td class="col5">{{ rowData.dataSize }}</td> -->
                 <template v-if="rowData.dataSize === 0">
                   <td class="col5"></td>
                 </template>
@@ -281,7 +244,7 @@
 </template>
 
 <script lang="ts">
-import { faL } from "@fortawesome/free-solid-svg-icons";
+// import { faL } from "@fortawesome/free-solid-svg-icons";
 import { defineComponent } from "vue";
 console.log("HomeShowData init");
 interface Obj {
@@ -289,14 +252,6 @@ interface Obj {
 }
 let globalRemarks: Obj = {}; // 備考欄のデータを保持するため
 let globalBitmaps: Obj = {}; // value range欄のbitmapデータを保持するため
-// let globalIsFirstRow = true;
-
-// type RowDataRangeItem ={
-//   edt: string;
-//   description?: string;
-//   name?: string;
-//   numericValue?: number;
-// }
 
 type RowData = {
   name: string;
@@ -318,15 +273,11 @@ export default defineComponent({
   name: "HomeShowData",
   data() {
     return {
-      // isJapanese: true, // selected radio button for language selection
-      // isShortNameVisible: false, // selected radio button for shortName visibility
       rowDataArray: rowDataArray, // array of rowData
-      // selectedEoj: "0x0130", // selected device by pull down menu with default value
       deviceNames: [
         { name: "Super Class", eoj: "0x0000" },
         { name: "Node profile", eoj: "0x0EF0" },
       ], // list of device objects for a pull down menu
-      // selectedRelease: "M", // selected release by pull down menu
       releases: ["A"],
     };
   },
@@ -426,18 +377,6 @@ export default defineComponent({
       console.log("selectedEoj: ", this.selectedEoj);
       this.updateReleases();
       this.createRowDataArray();
-      // const definitionsData = this.definitions.definitions.number_0.type;
-      // console.log({ definitionsData });
-      // const metaDataData = this.metaData.metaData.date;
-      // console.log({ metaDataData });
-      // const nodeProfileData = this.nodeProfile.eoj;
-      // console.log({ nodeProfileData });
-      // const superClassData = this.superClass.eoj;
-      // console.log({ superClassData });
-      // const devicesData = this.devices[0].eoj;
-      // console.log({ devicesData });
-
-      // this.updateDeviceNames();
     },
     // Release version が選択されたときの処理
     onReleaseSelection: function () {
@@ -458,10 +397,6 @@ export default defineComponent({
       );
       this.updateDeviceNames();
       this.createRowDataArray();
-    },
-    init: function () {
-      console.log("function init");
-      // this.selectedRelease = this.metaData.metaData.release;
     },
     // Appendixのrelease選択の要素を作成
     updateReleases: function () {
@@ -513,14 +448,14 @@ export default defineComponent({
       const isJapanese = this.isJapanese;
       const isShortNameVisible = this.isShortNameVisible;
 
-      console.log(
-        "type of isJapanese",
-        typeof isJapanese,
-        { isJapanese },
-        "type of isShortNameVisible",
-        typeof isShortNameVisible,
-        { isShortNameVisible }
-      );
+      // console.log(
+      //   "type of isJapanese",
+      //   typeof isJapanese,
+      //   { isJapanese },
+      //   "type of isShortNameVisible",
+      //   typeof isShortNameVisible,
+      //   { isShortNameVisible }
+      // );
       // プルダウンメニュー：機器オブジェクトの選択の要素 (deviceNames) を作成
       // Super class and Node profile
       const nameSuperClass = this.isJapanese ? "スーパークラス" : "Super class";
@@ -556,33 +491,6 @@ export default defineComponent({
       this.deviceNames = deviceNames;
     },
 
-    // oneOfの処理
-    // case 1: property.data.oneOf
-    // case 2: data.type == "object" の場合の element.oneOf
-    // case 3: data.type == "array" の場合の data.oneOf
-    processOneOf: function (
-      epc: string,
-      property: string,
-      id: string,
-      indexObject: string,
-      indexOneOf: string
-    ) {
-      // console.log("epc", epc, "property", property, "id", id, "indexObject", indexObject, "indexOneOf", indexOneOf);
-      // oneOfの処理
-      // if (property.data.oneOf) {
-      //   const arrayOneOf = property.data.oneOf;
-      //   for (indexOneOf = 0; indexOneOf < arrayOneOf.length; indexOneOf++) {
-      //     property.data = arrayOneOf[indexOneOf];
-      //     this.createRowData(epc, property, id, indexObject, indexOneOf);
-      //     id++;
-      //   }
-      // } else {
-      //   // const index = 0;  // 不要？
-      //   this.createRowData(epc, property, id, indexObject, indexOneOf);
-      //   id++;
-      // }
-    },
-
     // 表示用のデータrowDataArrayを作成する。
     createRowDataArray: function () {
       // metaData がまだ read されていなければ return
@@ -590,11 +498,11 @@ export default defineComponent({
         console.log("skip createRowDataArray()");
         return;
       }
-      console.log(
-        "createRowDataArray()",
-        this.selectedEoj,
-        this.selectedRelease
-      );
+      // console.log(
+      //   "createRowDataArray()",
+      //   this.selectedEoj,
+      //   this.selectedRelease
+      // );
       this.rowDataArray.length = 0; // Initialize rowDataArray
       // globalIsFirstRow = true; // 必要?
       const latestRelease = this.metaData.release;
@@ -771,8 +679,6 @@ export default defineComponent({
           }
         }
 
-        // console.log("call createRowData, schema", schema);
-        // globalIsFirstRow = true;
         this.createRowData(
           elProperty.data,
           true,
@@ -799,16 +705,16 @@ export default defineComponent({
       inf: string,
       remark: string
     ) {
-      console.log(
-        "function createRowData:",
-        { isFirstRow },
-        { is2ndOrLaterItemOfOneOf },
-        { name },
-        { epc },
-        { accessRule },
-        { accessRuleRequired },
-        { inf }
-      );
+      // console.log(
+      //   "function createRowData:",
+      //   { isFirstRow },
+      //   { is2ndOrLaterItemOfOneOf },
+      //   { name },
+      //   { epc },
+      //   { accessRule },
+      //   { accessRuleRequired },
+      //   { inf }
+      // );
       // isFirstRow が true の場合のみ、name, epc, accessRule, accessRuleRequired, inf, remark を表示する
       let rowData: RowData = {
         name: name,
@@ -858,29 +764,6 @@ export default defineComponent({
           );
           isFirstRow = false;
         });
-        // for (const [index, value] of schema.oneOf.entries()) {
-        //   console.log(
-        //     "oneOf: isFirstRow",
-        //     isFirstRow,
-        //     "index",
-        //     index,
-        //     "item",
-        //     value
-        //   );
-        //   const is2ndOrLaterItemOfOneOf = index == 0 ? false : true;
-        //   this.createRowData(
-        //     value,
-        //     isFirstRow,
-        //     is2ndOrLaterItemOfOneOf,
-        //     name,
-        //     epc,
-        //     accessRule,
-        //     accessRuleRequired,
-        //     inf,
-        //     remark
-        //   );
-        //   isFirstRow = false;
-        // }
         return;
       }
 
@@ -896,7 +779,7 @@ export default defineComponent({
           rowData.propType = "number";
           if (schema.enum) {
             rowData.range = schema.enum;
-            console.log(rowData.range);
+            // console.log(rowData.range);
           } else {
             const multiple = schema.multiple ? schema.multiple : 1;
             // 10進数表示の３けた区切りのコンマを追加 (Intl.NumberFormat)
@@ -928,7 +811,7 @@ export default defineComponent({
             case "int16":
               rowData.dataSize = 2;
               rowData.dataType = "signed short";
-              console.log("int16", rowData.dataSize, rowData.dataType);
+              // console.log("int16", rowData.dataSize, rowData.dataType);
               break;
             case "uint16":
               rowData.dataSize = 2;
@@ -967,16 +850,16 @@ export default defineComponent({
           rowData.bitmap = epc;
           rowData.dataType = "unsigned char";
           rowData.dataSize = schema.size;
-          console.log(
-            "bitmap",
-            rowData.propType,
-            rowData.range,
-            rowData.bitmap,
-            rowData.dataType,
-            rowData.dataSize
-          );
+          // console.log(
+          //   "bitmap",
+          //   rowData.propType,
+          //   rowData.range,
+          //   rowData.bitmap,
+          //   rowData.dataType,
+          //   rowData.dataSize
+          // );
           globalBitmaps[epc] = JSON.stringify(schema.bitmaps, null, 4);
-          console.log("bitmap end");
+          // console.log("bitmap end");
           break;
         case "date-time":
           rowData.propType = "date-time";
@@ -1059,16 +942,6 @@ export default defineComponent({
           rowData.propType = "oneOf";
           console.log("case oneOf");
           break;
-        // case "arrayHeader":
-        //   rowData.propType = "arrayHeader";
-        //   const minItems = schema.minItems ? schema.minItems : 1;
-        //   const itemCount =
-        //     schema.minItems == schema.maxItems
-        //       ? minItems
-        //       : minItems + " ~ " + schema.maxItems;
-        //   rowData.dataType = "array:" + schema.itemSize + "byte X " + itemCount;
-        //   break;
-
         case "array": {
           // display array header
           rowData.propType = "arrayHeader";
@@ -1078,29 +951,6 @@ export default defineComponent({
               ? minItems
               : minItems + " ~ " + schema.maxItems;
           rowData.dataType = "array:" + schema.itemSize + "byte X " + itemCount;
-          // const arrayHeaderSchema = {
-          // propertyName: elProperty.propertyName,
-          // shortName: elProperty.shortName,
-          // accessRule: elProperty.accessRule,
-          // data: {
-          // type: "arrayHeader",
-          // itemSize: schema.itemSize,
-          // minItems: schema.minItems,
-          // maxItems: schema.maxItems,
-          // },
-          // remark: elProperty.remark, // 2020.12.01
-          // };
-          // processOneOf(key, arrayHeaderProperty, id, indexObject, indexOneOf);
-          // this.createRowData(
-          //   arrayHeaderSchema,
-          //   isFirstRow,
-          //   name,
-          //   epc,
-          //   accessRule,
-          //   accessRuleRequired,
-          //   inf,
-          //   remark
-          // );
           if (isFirstRow) {
             isFirstRow = false;
           } else {
@@ -1112,20 +962,18 @@ export default defineComponent({
             rowData.remark = "empty";
           }
 
-          console.log("PUSH arrayHeader", rowData.name, rowData.dataSize);
+          // console.log("PUSH arrayHeader", rowData.name, rowData.dataSize);
           this.rowDataArray.push(rowData);
           isFirstRow = false;
 
           // display array data
           rowData.propType = "array";
-          // schema = schema.items;
-          // processOneOf(key, elProperty, id, indexObject + 1, indexOneOf);
-          console.log(
-            "array: schema.items",
-            schema.items,
-            "isFirstRow",
-            isFirstRow
-          );
+          // console.log(
+          //   "array: schema.items",
+          //   schema.items,
+          //   "isFirstRow",
+          //   isFirstRow
+          // );
           this.createRowData(
             schema.items,
             isFirstRow,
@@ -1167,7 +1015,9 @@ export default defineComponent({
             const elementName = this.isJapanese
               ? property.elementName.ja
               : property.elementName.en;
-            const shortName = this.isShortNameVisible ? property.shortName : "";
+            const shortName = this.isShortNameVisible
+              ? ":" + property.shortName
+              : "";
             rowData.dataType = "";
             rowData.range = elementName + shortName;
             console.log("PUSH objectHeader", rowData.range, rowData.dataSize, {
@@ -1187,15 +1037,15 @@ export default defineComponent({
 
             // Create rowData
             rowData.propType = "object";
-            console.log(
-              "object: property.element",
-              property.element,
-              "isFirstRow",
-              isFirstRow
-            );
+            // console.log(
+            //   "object: property.element",
+            //   property.element,
+            //   "isFirstRow",
+            //   isFirstRow
+            // );
             // object property.element をコピー
             const schemaCopy = JSON.parse(JSON.stringify(property.element));
-            console.log({ schemaCopy });
+            // console.log({ schemaCopy });
             this.createRowData(
               schemaCopy,
               isFirstRow,
@@ -1208,51 +1058,10 @@ export default defineComponent({
               remark
             );
           }
-          // globalIsFirstRow = false;
           return;
-          // const arrayObject = schema.properties;
-          // indexObject = indexObject === null ? 0 : indexObject;
-          // for (let i = 0; i < arrayObject.length; i++, indexObject++) {
-          //   // display object header
-          //   let objectTitle = "Missing descriptions";
-          //   // if (arrayObject[i].descriptions) {
-          //   if (arrayObject[i].elementName) {
-          //     objectTitle = this.isJapanese
-          //       ? // ? arrayObject[i].descriptions.ja
-          //         // : arrayObject[i].descriptions.en;
-          //         arrayObject[i].elementName.ja
-          //       : arrayObject[i].elementName.en;
-          //   }
-          //   // objectTitleにnameを追加
-          //   if (this.isShortNameVisible) {
-          //     // objectTitle += ": " + arrayObject[i].name;
-          //     objectTitle += ": " + arrayObject[i].shortName;
-          //   }
-          //   const objectHeaderProperty = {
-          //     propertyName: elProperty.propertyName,
-          //     shortName: elProperty.shortName,
-          //     accessRule: elProperty.accessRule,
-          //     data: {
-          //       type: "objectHeader",
-          //       name: objectTitle,
-          //     },
-          //     remark: elProperty.remark,
-          //   };
-          //   // processOneOf(
-          //   //   key,
-          //   //   objectHeaderProperty,
-          //   //   id,
-          //   //   indexObject,
-          //   //   indexOneOf
-          //   // );
-
-          //   // display object data
-          //   schema = arrayObject[i].element;
-          //   // processOneOf(key, elProperty, id, indexObject + 1, indexOneOf);
-          // }
         }
         default:
-          console.log("default", schema.type);
+        // console.log("default", schema.type);
       } // end of switch
 
       if (schema.multiple) {
@@ -1262,30 +1071,6 @@ export default defineComponent({
           rowData.unit = schema.unit;
         }
       }
-
-      // if (indexOneOf > 0) {
-      //   rowData.epc = "";
-      //   rowData.name = "";
-      //   rowData.dataType = "";
-      //   rowData.dataSize = "";
-      //   rowData.accessRule = "";
-      //   rowData.accessRuleRequired = "";
-      //   rowData.inf = "";
-      //   rowData.remark = "empty";
-      // } else if (
-      //   indexObject > 0 &&
-      //   (indexOneOf === null || indexOneOf === 0)
-      // ) {
-      //   rowData.epc = "";
-      //   rowData.name = "";
-      //   rowData.accessRule = "";
-      //   rowData.accessRuleRequired = "";
-      //   rowData.inf = "";
-      //   rowData.remark = "empty";
-      // }
-
-      // console.log("schema.size", schema.size);
-      // rowData.dataSize = schema.size;
 
       // isFirstRow が true の場合のみ、name, epc, accessRule, accessRuleRequired, inf, remark を表示する
       if (isFirstRow) {
@@ -1303,7 +1088,7 @@ export default defineComponent({
         rowData.dataSize = 0;
         rowData.unit = "";
       }
-      console.log("PUSH rowData", rowData.name, rowData.dataSize);
+      // console.log("PUSH rowData", rowData.name, rowData.dataSize);
       this.rowDataArray.push(rowData);
     },
     // 値域欄のbitmapをクリックしたときの動作
@@ -1312,10 +1097,6 @@ export default defineComponent({
       this.bitmap.title = "Bitmap schema for EPC: " + epc;
       this.bitmap.content = globalBitmaps[epc];
       this.$router.push("bitmap");
-
-      // window.localStorage.setItem("bitmap-title", "EPC = " + bitmapEpc);
-      // window.localStorage.setItem("bitmap-content", globalBitmaps[bitmapEpc]);
-      // window.open("bitmap.html", "bitmap", "width=600,height=300");
     },
     // 備考欄の * をクリックしたときの動作
     showRemark: function (epc: string) {
@@ -1328,9 +1109,6 @@ export default defineComponent({
   created: function () {
     console.log("HomeShowData is created");
     console.log("this.metaData");
-    console.log(Object.keys(this.metaData));
-    console.log(Object.keys(this.metaData.metaData));
-    console.log(Object.keys(this.metaData.metaData.dataVersion));
     if (this.metaData.metaData.dataVersion == "unknown") {
       console.log("JSON files should be imported!");
       this.$router.push("setting");
@@ -1454,6 +1232,10 @@ th {
 .card-body {
   margin: 0;
   padding: 0;
+}
+.form-check {
+  padding-top: 0.5rem;
+  padding-left: 2rem;
 }
 #scrollWindow {
   height: 80vh;

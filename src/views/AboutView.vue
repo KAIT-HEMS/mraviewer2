@@ -48,6 +48,10 @@
             </li>
             <li>日本語版と英語版の情報を記述しています。</li>
             <li>Release A から最新の Release までの情報を記述しています。</li>
+            <li>
+              ECHONET Lite WebAPI Device Descriptions で利用するための property
+              name や state を shortName として記述しています。
+            </li>
           </ul>
         </div>
       </div>
@@ -91,6 +95,40 @@
               が表示されます。
             </li>
           </ol>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-auto h5 mt-2">Trouble shooting</div>
+          <div class="col"></div>
+        </div>
+      </div>
+      <div class="card-body" id="troubleShooting">
+        <div>
+          <p>
+            MRA データの読み込み以降に画面が正しく表示されず、
+            プログラムを再起動しても症状が繰り返される場合は、
+            以下の操作を行いブラウザの local storage をクリアしたのちに、 正しい
+            MRA データを読み込み直してください。
+          </p>
+          <h5>Windows の Chrome の場合</h5>
+          <ul>
+            <li>"Google Chrome の設定" をクリック</li>
+            <li>"その他のツール"/"デベロッパーツール" を選択</li>
+            <li>"Console" タブをクリック</li>
+            <li>localStorage.clear(); を入力する</li>
+            <li>プログラムを CTRL-C で終了し、プログラムを起動しなおす</li>
+          </ul>
+          <h5>Mac OS の Chrome の場合</h5>
+          <ul>
+            <li>"表示" メニューをクリック</li>
+            <li>"開発/管理"/"デベロッパーツール" を選択</li>
+            <li>"Console" タブをクリック</li>
+            <li>localStorage.clear(); を入力する</li>
+            <li>プログラムを CTRL-C で終了し、プログラムを起動しなおす</li>
+          </ul>
         </div>
       </div>
     </div>

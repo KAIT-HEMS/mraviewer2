@@ -135,8 +135,8 @@ export default defineComponent({
             console.log("Found metaData.json");
             this.importedFiles.push(file.name);
             this.importedFiles.sort();
+            // 読み込み操作が正常に完了するたびにトリガされるイベントハンドラ。
             reader.onload = () => {
-              // 読み込み操作が正常に完了するたびにトリガされるイベントハンドラ。
               if (reader.result) {
                 readerResult = reader.result;
                 if (typeof readerResult == "string") {
@@ -236,6 +236,13 @@ export default defineComponent({
 </script>
 
 <style scoped>
+.input-group {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
 .uploader {
   margin-top: 8px;
   margin-bottom: 8px;

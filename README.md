@@ -264,6 +264,8 @@ npm start
 - MRA は FileReader を利用して読み込む。
   - 一度 read した JSON は localStorage に保存する
     - localStorage の容量は 5MBまで。MRA は現在 1.3MB なので、全て（definitions, metaData, nodeProfile, superClass, devices）をlocalStorage に保存する。
+    - devices 以外は object を JSON に変換して localStorage に set する
+    - devices は array なので、"devices" を key とする object を作成、JSON に変換、localStorage に set する
 - 起動時の動作
   - VueX の store の初期化(src/store/index.ts)で、localStorage から MRA を get する。
     - metaData が undefined の場合、dataVersion と release の初期値を "unknown" とする。
@@ -290,28 +292,3 @@ bitmap | bitmap を表示するためのデータ
 - デバッグ時に初期状態を再現するためには、localStorage をクリアする必要がある。
   - Chrome の DevTools の console で、"localStorage.clear();" を入力する
   - その後、プログラムを起動しなおす
-
-## 進捗
-
-2022.07.07
-
-- 基本機能実装完了
-
-2022.07.08
-
-- Menu の選択項目を store に変更
-  - この結果、setting view や remark, bitmap 表示から戻ったときに同じ画面になる
-  - menu の初期値: エアコン、最新のリリース、Japanese、shortName off
-- MRA を import した際に、file name を表示する
-
-2022.07.22
-
-- MRA を localStorage に set
-
-TODOs:
-
-- remark と bitmap を別 window で表示する機能
-
-Fixed BUGs
-
-- MRA を複数回読み込むと、プルダウンメニューの EOJ の項目が重複する 2022.07.22

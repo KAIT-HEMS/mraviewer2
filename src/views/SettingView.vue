@@ -23,15 +23,4 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-.input-group {
-  margin-top: 0.25rem;
-  margin-bottom: 0.25rem;
-  margin-left: 0.25rem;
-  margin-right: 0.25rem;
-}
-.form-check {
-  padding-top: 0.5rem;
-  padding-left: 2rem;
-}
-</style>
+<style scoped></style>
