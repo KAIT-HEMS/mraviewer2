@@ -87,7 +87,7 @@ npm i bootstrap
 npm i @fortawesome/fontawesome-svg-core
 npm i @fortawesome/free-solid-svg-icons
 npm i @fortawesome/free-regular-svg-icons
-npm i @fortawesome/vue-fontawesome@prerelease
+npm i @fortawesome/vue-fontawesome@latest-3
 ```
 
 ./src/main.ts を修正。
