@@ -102,41 +102,43 @@
       </div>
 
       <div class="card-body">
-        <!-- Fixed line for title-->
-        <table class="table table-bordered table-sm my-0">
-          <thead class="thead-light">
-            <tr>
-              <template v-if="isJapanese">
-                <th scope="col" class="col1">プロパティ</th>
-                <th scope="col" class="col2">EPC</th>
-                <th scope="col" class="col3">値域</th>
-                <th scope="col" class="col4">データ型</th>
-                <th scope="col" class="col5">データサイズ</th>
-                <th scope="col" class="col6">単位</th>
-                <th scope="col" class="col7">アクセスルール</th>
-                <th scope="col" class="col8">必須</th>
-                <th scope="col" class="col9">状変時アナウンス</th>
-                <th scope="col" class="col10">備考</th>
-              </template>
-              <template v-else>
-                <th scope="col" class="col1">Property name</th>
-                <th scope="col" class="col2">EPC</th>
-                <th scope="col" class="col3">Value range</th>
-                <th scope="col" class="col4">Data type</th>
-                <th scope="col" class="col5">Data size</th>
-                <th scope="col" class="col6">Unit</th>
-                <th scope="col" class="col7">Access rule</th>
-                <th scope="col" class="col8">Mandatory</th>
-                <th scope="col" class="col9">Announcement at status change</th>
-                <th scope="col" class="col10">Remark</th>
-              </template>
-            </tr>
-          </thead>
-        </table>
+        <div class="scrollWindow">
+          <!-- Fixed line for title-->
+          <table class="table table-bordered table-sm my-0">
+            <thead class="thead-light">
+              <tr>
+                <template v-if="isJapanese">
+                  <th scope="col" class="col1">プロパティ</th>
+                  <th scope="col" class="col2">EPC</th>
+                  <th scope="col" class="col3h">値域</th>
+                  <th scope="col" class="col4h">データ型</th>
+                  <th scope="col" class="col5h">データサイズ</th>
+                  <th scope="col" class="col6">単位</th>
+                  <th scope="col" class="col7">アクセスルール</th>
+                  <th scope="col" class="col8h">必須</th>
+                  <th scope="col" class="col9h">状変時アナウンス</th>
+                  <th scope="col" class="col10h">備考</th>
+                </template>
+                <template v-else>
+                  <th scope="col" class="col1">Property name</th>
+                  <th scope="col" class="col2">EPC</th>
+                  <th scope="col" class="col3h">Value range</th>
+                  <th scope="col" class="col4h">Data type</th>
+                  <th scope="col" class="col5h">Data size</th>
+                  <th scope="col" class="col6">Unit</th>
+                  <th scope="col" class="col7">Access rule</th>
+                  <th scope="col" class="col8h">Mandatory</th>
+                  <th scope="col" class="col9h">
+                    Announcement at status change
+                  </th>
+                  <th scope="col" class="col10h">Remark</th>
+                </template>
+              </tr>
+            </thead>
+            <!-- </table> -->
 
-        <!-- Scrollable for contents data area -->
-        <div id="scrollWindow">
-          <table class="table table-sm">
+            <!-- Scrollable for contents data area -->
+            <!-- <table class="table table-sm"> -->
             <tbody>
               <tr
                 v-for="rowData in rowDataArray"
@@ -1162,24 +1164,11 @@ function toStringHex(number: number, bytes: number) {
 [v-cloak] {
   display: none;
 }
-
 body {
   padding-top: 1rem;
 }
-table {
-  width: 100%;
-}
 table.layout-fixed {
   table-layout: fixed;
-}
-/* table td, */
-th,
-td {
-  word-break: break-word;
-  overflow-wrap: break-word;
-  font-family: Consolas, "Courier New", Courier, Monaco, monospace;
-  font-size: 0.9rem;
-  cursor: pointer;
 }
 /* プロパティ */
 .col1 {
@@ -1192,6 +1181,10 @@ td {
   vertical-align: middle;
 }
 /* 値域 */
+.col3h {
+  width: 16rem;
+  vertical-align: middle;
+}
 .col3 {
   width: 16rem;
   font-size: 0.8rem;
@@ -1200,12 +1193,21 @@ td {
   padding-bottom: 0rem;
 }
 /* データ型 */
+.col4h {
+  width: 10rem;
+  vertical-align: middle;
+}
 .col4 {
   width: 10rem;
   font-size: 0.8rem;
   vertical-align: middle;
 }
 /* データサイズ */
+.col5h {
+  width: 4rem;
+  font-size: 0.8rem;
+  vertical-align: middle;
+}
 .col5 {
   width: 4rem;
   vertical-align: middle;
@@ -1222,16 +1224,31 @@ td {
   vertical-align: middle;
 }
 /* 必須 */
+.col8h {
+  width: 3rem;
+  font-size: 0.8rem;
+  vertical-align: middle;
+}
 .col8 {
   width: 3rem;
   vertical-align: middle;
 }
 /* 状変時 */
+.col9h {
+  width: 5rem;
+  font-size: 0.8rem;
+  vertical-align: middle;
+}
 .col9 {
   width: 5rem;
   vertical-align: middle;
 }
 /* 備考 */
+.col10h {
+  width: 2rem;
+  font-size: 0.8rem;
+  vertical-align: middle;
+}
 .col10 {
   width: 2rem;
   vertical-align: middle;
@@ -1244,9 +1261,39 @@ td {
   padding-top: 0.5rem;
   padding-left: 2rem;
 }
-#scrollWindow {
-  height: 80vh;
-  overflow-y: scroll;
+.scrollWindow {
+  overflow: auto;
+  width: 100%;
+  height: 100vh;
+}
+.scrollWindow table {
+  margin: 0;
+  border-spacing: 0;
+}
+.scrollWindow td {
+  font-family: Consolas, "Courier New", Courier, Monaco, monospace;
+  /* font-size: 0.9rem; */
+  background: #fff;
+  /* padding: 5px; */
+}
+.scrollWindow th {
+  font-family: Consolas, "Courier New", Courier, Monaco, monospace;
+  /* font-size: 0.9rem; */
+  border-right: 1px solid #999;
+  border-bottom: 1px solid #999;
+  background: #f2f2f2;
+  position: sticky;
+  top: 0;
+  left: 0;
+}
+.scrollWindow tr:first-child th {
+  border-top: 1px solid #999;
+}
+.scrollWindow th:first-child {
+  border-left: 1px solid #999;
+}
+.scrollWindow tr:first-child th:first-child {
+  z-index: 1;
 }
 .under {
   text-decoration: underline blue;
