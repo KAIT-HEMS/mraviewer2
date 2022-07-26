@@ -447,15 +447,6 @@ export default defineComponent({
       console.log("function updateDeviceNames");
       const isJapanese = this.isJapanese;
       const isShortNameVisible = this.isShortNameVisible;
-
-      // console.log(
-      //   "type of isJapanese",
-      //   typeof isJapanese,
-      //   { isJapanese },
-      //   "type of isShortNameVisible",
-      //   typeof isShortNameVisible,
-      //   { isShortNameVisible }
-      // );
       // プルダウンメニュー：機器オブジェクトの選択の要素 (deviceNames) を作成
       // Super class and Node profile
       const nameSuperClass = this.isJapanese ? "スーパークラス" : "Super class";
@@ -781,7 +772,7 @@ export default defineComponent({
             rowData.range = schema.enum;
             // console.log(rowData.range);
           } else {
-            const multiple = schema.multiple ? schema.multiple : 1;
+            const multiple = schema.multiple ?? 1;
             // 10進数表示の３けた区切りのコンマを追加 (Intl.NumberFormat)
             const digit =
               new Intl.NumberFormat().format(schema.minimum * multiple) +
@@ -850,21 +841,32 @@ export default defineComponent({
           rowData.bitmap = epc;
           rowData.dataType = "unsigned char";
           rowData.dataSize = schema.size;
-          // console.log(
-          //   "bitmap",
-          //   rowData.propType,
-          //   rowData.range,
-          //   rowData.bitmap,
-          //   rowData.dataType,
-          //   rowData.dataSize
-          // );
           globalBitmaps[epc] = JSON.stringify(schema.bitmaps, null, 4);
-          // console.log("bitmap end");
+          break;
+        case "date":
+          rowData.propType = "date";
+          rowData.dataType = "unsigned char";
+          rowData.dataSize = schema.size ?? 4;
+          switch (rowData.dataSize) {
+            case 2:
+              rowData.range = "YYYY YYYY:0~9999 0x0000~0x270F";
+              break;
+            case 3:
+              rowData.range =
+                "YYYY:MM YYYY:0~9999 0x0000~0x270F, MM:0~12 0x00~0x0C";
+              break;
+            case 4:
+              rowData.range =
+                "YYYY:MM:DD YYYY:0~9999 0x0000~0x270F, MM:0~12 0x00~0x0C, DD:0~31 0x00~0x1F";
+              break;
+            default:
+              rowData.range = "date(default)";
+          }
           break;
         case "date-time":
           rowData.propType = "date-time";
           rowData.dataType = "unsigned char";
-          rowData.dataSize = schema.size ? schema.size : 7;
+          rowData.dataSize = schema.size ?? 7;
           switch (rowData.dataSize) {
             case 2:
               rowData.range = "YYYY YYYY:0~9999 0x0000~0x270F";
@@ -895,8 +897,8 @@ export default defineComponent({
           break;
         case "time": {
           rowData.propType = "time";
-          rowData.dataSize = schema.size ? schema.size : 3;
-          const hourMax = schema.maximumOfHour ? schema.maximumOfHour : 23;
+          rowData.dataSize = schema.size ?? 3;
+          const hourMax = schema.maximumOfHour ?? 23;
           switch (rowData.dataSize) {
             case 1:
               rowData.dataType = "unsigned char x 1";
@@ -945,7 +947,7 @@ export default defineComponent({
         case "array": {
           // display array header
           rowData.propType = "arrayHeader";
-          const minItems = schema.minItems ? schema.minItems : 1;
+          const minItems = schema.minItems ?? 1;
           const itemCount =
             schema.minItems == schema.maxItems
               ? minItems
