@@ -1166,10 +1166,15 @@ function toStringHex(number: number, bytes: number) {
 body {
   padding-top: 1rem;
 }
-
-table td,
-th {
-  word-wrap: break-word;
+table {
+  width: 100%;
+}
+table.layout-fixed {
+  table-layout: fixed;
+}
+/* table td, */
+th,
+td {
   word-break: break-word;
   overflow-wrap: break-word;
   font-family: Consolas, "Courier New", Courier, Monaco, monospace;
@@ -1218,7 +1223,7 @@ th {
 }
 /* 必須 */
 .col8 {
-  width: 2rem;
+  width: 3rem;
   vertical-align: middle;
 }
 /* 状変時 */
