@@ -1297,5 +1297,6 @@ table.layout-fixed {
 }
 .under {
   text-decoration: underline blue;
+  cursor: pointer;
 }
 </style>
