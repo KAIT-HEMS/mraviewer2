@@ -73,7 +73,7 @@
             <li>
               <a href="https://echonet.jp/spec_g/#standard-08" target="_blank"
                 >エコーネットコンソーシアムのHP</a
-              >から「MRAデータ Version x.x.x (JSON)
+              >から最新の MRA のページに移動し、「MRAデータ Version x.x.x (JSON)
               [zip圧縮]」をダウンロードし、ZIP ファイルを解凍します。
             </li>
             <li>MRA Viewer を起動すると、Setting 画面が表示されます。</li>
